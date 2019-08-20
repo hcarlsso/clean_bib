@@ -16,13 +16,23 @@ import yaml
 input_b = "library.bib"
 output_b = "library_clean.bib"
 
-with open("ieee_abrv.yml", 'r') as stream:
+p = Path(os.path.realpath(__file__))
+
+# os.path.join(str(p.parents[0]), filename_output)
+ieee_abrv_path = os.path.join(
+    p.parents[0], Path("ieee_abrv.yml")
+)
+conf_title_abbrv_path = os.path.join(
+    p.parents[0], Path("conf_title_abbrv.yml")
+)
+
+with open(ieee_abrv_path, 'r') as stream:
     try:
         mapping_abbr = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
         print(exc)
 
-with open("conf_title_abbrv.yml", 'r') as stream:
+with open(conf_title_abbrv_path, 'r') as stream:
     try:
         mapping_conf = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
@@ -224,10 +234,11 @@ if __name__ == '__main__':
 
 
     input_b = os.path.abspath(sys.argv[1])
-    p = Path(input_b)
-    filename_output = p.stem + '_clean' + p.suffix
-    output_b = os.path.join(str(p.parents[0]), filename_output)
+    # p = Path(input_b)
+    # filename_output = p.stem + '_clean' + p.suffix
+    # output_b = os.path.join(str(p.parents[0]), filename_output)
 
+    output_b = os.path.abspath(sys.argv[2])
 
 
     print("{0} Cleaning duff bib records from {1} into {2}".format(
